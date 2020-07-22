@@ -1,6 +1,4 @@
 import os
-import pkg_resources
-import pickle
 
 
 def auth_user():
