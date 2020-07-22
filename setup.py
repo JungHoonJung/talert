@@ -7,5 +7,5 @@ setup(name='talert',
 		author_email='jh.jung@uos.ac.kr',
 		packages=find_packages(),
 		setup_requires=['python-telegram-bot'],
-		install_requires=['python-telegram-bot']
+		install_requires=['python-telegram-bot','ipykernel']
 	 )

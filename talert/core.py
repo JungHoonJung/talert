@@ -3,11 +3,12 @@ from .auth import auth_user
 import sys, os
 import datetime as dt
 from io import StringIO, BytesIO
-from IPython.core.magic import register_cell_magic
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
+__all__ = ['talert','figtotelegram']
 
-__all__ = ['talert','telegram','figtotelegram']
+
+
 
 def running_with_talert(bash_command):
     pass
@@ -65,15 +66,18 @@ def figtotelegram(fig, format='png', *arg, **kwarg):
     buf.seek(0)
     talert.bot.send_photo(target_id, photo=buf)
 
-@register_cell_magic
-def telegram(line, cell):
-    "Magic that works both as %lcmagic and as %%lcmagic"
-    global talert
-    if not line:
-        line = None
-    with talert(line):
-        cell_exe = get_ipython().run_cell(cell)
-        cell_exe.raise_error()
-
-
 talert = talertBase(bot, target_id)
+
+try:
+    from IPython.core.magic import register_cell_magic
+    @register_cell_magic
+    def telegram(line, cell):
+        "Magic that works both as %lcmagic and as %%lcmagic"
+        global talert
+        if not line:
+            line = None
+        with talert(line):
+            cell_exe = get_ipython().run_cell(cell)
+            cell_exe.raise_error()
+except:
+    pass
